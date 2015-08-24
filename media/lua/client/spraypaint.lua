@@ -14,7 +14,6 @@ spraypaint.gameModData = nil;
 --
 --
 spraypaint.loadTextures = function()
-	print("Loading spraypaint tiles");
 	t = getTexture('media/textures/Item_TZ_Spraycan.png');
 	t = getTexture('media/textures/Item_TZ_Spraycan_White.png');
 	t = getTexture('media/textures/Item_TZ_Spraycan_Black.png');
