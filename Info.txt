@@ -18,4 +18,4 @@ You can find spraycans in some containers:
 - 9 colours (black, white, red, blue, green, yellow, orange, violet, cyan)
 - 18 shapes to spray (arrows, simple icons, special icons)
 - Single and Multiplayer support!
-- Language support: german, polish
+- additional language support: german, polish
