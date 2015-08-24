@@ -1,9 +1,13 @@
-Spraypaint mod for Project Zomboid
+Spraypaint Mod for Project Zomboid
 
-Original code by:
+Concept Idea by Thuztor
+
+Original Code by:
 - Peanuts, Thuztor, blindCoder
 - Contributors: Ryun, gon
 - with initial help from RobertJohnson
+
+Original Textures by Thuztor
 
 Original PZ Forum link:
 http://theindiestone.com/forums/index.php/topic/81-spray-paint-mod
