@@ -4,13 +4,6 @@
 ----------------------------------------------------
 
 spraypaintMenu = {};
-spraypaintMenu.debug = false;
-
--- disables zombie creation (new game) and fatigue/etc if debug is true above
-if spraypaintMenu.debug then
-	SystemDisabler.setDoCharacterStats(false)
-	SystemDisabler.setDoZombieCreation(false)
-end
 
 spraypaintMenu.doSpraypaintMenu = function(player, context, worldobjects)
 	print ("spraypaintMenu.doSpraypaintMenu("..tostring(player)..", "..tostring(context)..", "..tostring(worldobjects));
@@ -23,18 +16,6 @@ spraypaintMenu.doSpraypaintMenu = function(player, context, worldobjects)
 			playerHasSprayCan = true;
 			break;
 		end
-	end
-
-	if spraypaintMenu.debug then
-		context:addOption("Give me a white spray can!", worldobjects, spraypaintMenu.giveItem, player, 'spraypaint.SpraycanWhite');
-		context:addOption("Give me a red spray can!", worldobjects, spraypaintMenu.giveItem, player, 'spraypaint.SpraycanRed');
-		context:addOption("Give me a green spray can!", worldobjects, spraypaintMenu.giveItem, player, 'spraypaint.SpraycanGreen');
-		context:addOption("Give me a blue spray can!", worldobjects, spraypaintMenu.giveItem, player, 'spraypaint.SpraycanBlue');
-		context:addOption("Give me a black spray can!", worldobjects, spraypaintMenu.giveItem, player, 'spraypaint.SpraycanBlack');
-		context:addOption("Give me a yellow spray can!", worldobjects, spraypaintMenu.giveItem, player, 'spraypaint.SpraycanYellow');
-		context:addOption("Give me a orange spray can!", worldobjects, spraypaintMenu.giveItem, player, 'spraypaint.SpraycanOrange');
-		context:addOption("Give me a violet spray can!", worldobjects, spraypaintMenu.giveItem, player, 'spraypaint.SpraycanViolet');
-		context:addOption("Give me a cyan spray can!", worldobjects, spraypaintMenu.giveItem, player, 'spraypaint.SpraycanCyan');
 	end
 
 	-- Contextual menu creation if player has a spray can
@@ -94,13 +75,6 @@ spraypaintMenu.onSpray = function(worldobjects, player, sprayCanItem, shape, spr
 
 	player = getSpecificPlayer(player);
 	getCell():setDrag(tag, player:getPlayerNum());
-end
-
-spraypaintMenu.giveItem = function()
-	print("spraypaintMenu.giveItem");
-	spraypaintMenu.giveItem = function(worldobjects, player, item)
-		getSpecificPlayer(player):getInventory():AddItem(item);
-	end
 end
 
 Events.OnFillWorldObjectContextMenu.Add(spraypaintMenu.doSpraypaintMenu);
