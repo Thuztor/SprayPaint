@@ -24,8 +24,19 @@ spraypaintMenu.doSpraypaintMenu = function(player, context, worldobjects)--{{{
 	end
 end
 --}}}
-spraypaintMenu.showWindow = function(player)--{{{
-	if spraypaintMenu.window then spraypaintMenu.window:setVisibility(true); return end
+spraypaintMenu.showWindow = function(player, useSprayCan)--{{{
+	if useSprayCan then
+		for _,sprayCan in ipairs(sprayCanConf.list) do
+			if useSprayCan and (sprayCan.name == useSprayCan:getType()) then
+				spraypaintMenu.Color = sprayCan;
+			end
+		end
+	end
+
+	if spraypaintMenu.window then
+		spraypaintMenu.window:setVisible(true);
+		return
+	end
 
 	local sprayPanel = ISPanel:new(100, 100, 4 + (4 * 50), 20 + (5 * 50));
 	spraypaintMenu.window = sprayPanel:wrapInCollapsableWindow(getText("UI_SprayOnFloor"));
@@ -102,3 +113,17 @@ spraypaintMenu.onSpray = function(_, self) -- {{{
 end
 --}}}
 Events.OnFillWorldObjectContextMenu.Add(spraypaintMenu.doSpraypaintMenu);
+
+spraypaintMenu.doInventoryMenu = function(player, context, items) -- {{{
+	local item = items[1];
+	if not instanceof(item, "InventoryItem") then
+		item = item.items[1];
+	end
+	if item == nil then return end;
+
+	if luautils.stringStarts(item:getType(), "Spraycan") then
+		context:addOption(getText("UI_SprayOnFloor"), player, spraypaintMenu.showWindow, item);
+	end
+end
+-- }}}
+Events.OnFillInventoryObjectContextMenu.Add(spraypaintMenu.doInventoryMenu);
