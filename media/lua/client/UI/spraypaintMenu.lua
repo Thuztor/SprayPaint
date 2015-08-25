@@ -83,7 +83,6 @@ spraypaintMenu.selectColor = function(_, self)--{{{
 end
 --}}}
 
--- spraypaintMenu.onSpray = function(worldobjects, player, sprayCanItem, shape, sprayCan)
 spraypaintMenu.onSpray = function(_, self) -- {{{
 	local player = getSpecificPlayer(self.player);
 	local inv = player:getInventory();
