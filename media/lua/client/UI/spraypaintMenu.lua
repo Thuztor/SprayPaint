@@ -6,24 +6,6 @@
 spraypaintMenu = {};
 spraypaintMenu.Color = sprayCanConf.list[1];
 
-spraypaintMenu.doSpraypaintMenu = function(player, context, worldobjects)--{{{
-	local playerInventory = getSpecificPlayer(player):getInventory();
-	local playerHasSprayCan = false;
-
-	-- Does the player have a spray can ?
-	for _,sprayCan in ipairs(sprayCanConf.list) do
-		if playerInventory:contains(sprayCan.name) then
-			playerHasSprayCan = true;
-			break;
-		end
-	end
-
-	-- Contextual menu creation if player has a spray can
-	if playerHasSprayCan then
-		context:addOption(getText("UI_SprayOnFloor"), player, spraypaintMenu.showWindow);
-	end
-end
---}}}
 spraypaintMenu.showWindow = function(player, useSprayCan)--{{{
 	if useSprayCan then
 		for _,sprayCan in ipairs(sprayCanConf.list) do
@@ -110,6 +92,27 @@ spraypaintMenu.onSpray = function(_, self) -- {{{
 	local tag = Tag:new(self.player, sprayCanItem, self.shape.name, spraypaintMenu.Color.red, spraypaintMenu.Color.green, spraypaintMenu.Color.blue);
 
 	getCell():setDrag(tag, player:getPlayerNum());
+end
+--}}}
+
+spraypaintMenu.doSpraypaintMenu = function(player, context, worldobjects)--{{{
+	local playerInventory = getSpecificPlayer(player):getInventory();
+	local playerHasSprayCan = false;
+	local sprayCan = nil;
+
+	-- Does the player have a spray can ?
+	for _,sprayCan in ipairs(sprayCanConf.list) do
+		sprayCan = playerInventory:FindAndReturn("spraypaint."..sprayCan.name)
+		if sprayCan then
+			playerHasSprayCan = true;
+			break;
+		end
+	end
+
+	-- Contextual menu creation if player has a spray can
+	if playerHasSprayCan then
+		context:addOption(getText("UI_SprayOnFloor"), player, spraypaintMenu.showWindow, sprayCan);
+	end
 end
 --}}}
 Events.OnFillWorldObjectContextMenu.Add(spraypaintMenu.doSpraypaintMenu);
