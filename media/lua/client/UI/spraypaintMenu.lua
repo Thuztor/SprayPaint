@@ -158,7 +158,7 @@ spraypaintMenu.addToolbarButton = function()
 	spraypaintMenu.toolbarButton = ISButton:new(0, 0, 64, 64, "SP", nil, spraypaintMenu.showWindowToolbar);
 	bcToolbar.moveButtonToToolbar(spraypaintMenu.toolbarButton, "Spraypaint");
 end
-if isModEnabled("bcToolbar") then
+if getActivatedMods():contains("bcToolbar") then
 	require("bcToolbar");
 	Events.bcToolbarAddButtons.Add(spraypaintMenu.addToolbarButton);
 end
