@@ -38,6 +38,8 @@ addBind("Northeast", 77) --
 addBind("Southwest", 75) -- 
 addBind("Southeast", 80) -- 
 
+addBind("ToggleSpraypaintWindow", 0); -- show/hide spraypaint window
+
 local function getSprayByName(name)
 	for _,place in ipairs(shapeConf.list) do
 		for _,symbolType in ipairs(place.symbolTypes) do
@@ -55,7 +57,7 @@ local function findFirstUsableCan(inventory)
 	for i = 0,inventory:size() - 1 do
 		local item = inventory:get(i)
 		for _,sprayCan in ipairs(sprayCanConf.list) do
-			if item:getType() == sprayCan.name and math.floor(item:getUsedDelta()/item:getUseDelta()) > 0 then
+			if item:getType() == sprayCan.name and bcUtils.numUsesLeft(item) > 0 then
 				return item,sprayCan
 			end
 		end

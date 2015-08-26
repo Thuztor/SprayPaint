@@ -5,6 +5,7 @@
 
 spraypaintMenu = {};
 spraypaintMenu.Color = sprayCanConf.list[1];
+spraypaintMenu.colorButtons = {};
 
 spraypaintMenu.showWindow = function(player, useSprayCan)--{{{
 	if useSprayCan then
@@ -43,12 +44,17 @@ spraypaintMenu.showWindow = function(player, useSprayCan)--{{{
 		end
 	end
 
+	local inv = getSpecificPlayer(player):getInventory();
 	x = 0;
 	for _,sprayCan in ipairs(sprayCanConf.list) do
 		local btn = ISButton:new(2 + (x * 18), 2, 16, 16, "", nil, spraypaintMenu.selectColor);
 		btn.player = player;
 		btn.item = sprayCan;
 		btn.backgroundColor = { r = sprayCan.red, g = sprayCan.green, b = sprayCan.blue, a = 1.0 };
+		spraypaintMenu.colorButtons[sprayCan.name] = btn;
+		if not inv:FindAndReturn("spraypaint."..sprayCan.name) then
+			btn:setVisible(false);
+		end
 		sprayPanel:addChild(btn);
 		x = x + 1;
 	end
@@ -58,13 +64,6 @@ end
 --}}}
 
 spraypaintMenu.renderShapeButton = function(self)--{{{
-	self:drawTextureScaledAspect(self.image,
-		self:getWidth() / 2 - self.image:getWidth() / 2, self:getHeight() - self.image:getHeight(),
-		self.image:getWidth(), self.image:getHeight(),
-		1, spraypaintMenu.Color.red, spraypaintMenu.Color.green, spraypaintMenu.Color.blue);
-end
---}}}
-spraypaintMenu.renderColorButton = function(self)--{{{
 	self:drawTextureScaledAspect(self.image,
 		self:getWidth() / 2 - self.image:getWidth() / 2, self:getHeight() - self.image:getHeight(),
 		self.image:getWidth(), self.image:getHeight(),
@@ -130,3 +129,26 @@ spraypaintMenu.doInventoryMenu = function(player, context, items) -- {{{
 end
 -- }}}
 Events.OnFillInventoryObjectContextMenu.Add(spraypaintMenu.doInventoryMenu);
+
+spraypaintMenu.ISITAPerform = ISInventoryTransferAction.perform;
+ISInventoryTransferAction.perform = function(self)--{{{
+	spraypaintMenu.ISITAPerform(self);
+	spraypaintMenu.updateColorButtons(nil);
+end
+--}}}
+spraypaintMenu.updateColorButtons = function(object)--{{{
+	print("spraypaintMenu.updateColorButtons");
+	if not spraypaintMenu.window then return end;
+
+	local inv = getPlayer():getInventory();
+	for _,sprayCan in ipairs(sprayCanConf.list) do
+		print("Checking: spraypaint."..sprayCan.name..": "..tostring(inv:FindAndReturn("spraypaint."..sprayCan.name)));
+		if inv:FindAndReturn("spraypaint."..sprayCan.name) then
+			spraypaintMenu.colorButtons[sprayCan.name]:setVisible(true);
+		else
+			spraypaintMenu.colorButtons[sprayCan.name]:setVisible(false);
+		end
+	end
+end
+--}}}
+Events.OnContainerUpdate.Add(spraypaintMenu.updateColorButtons);
