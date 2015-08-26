@@ -3,3 +3,7 @@ poster=poster.png
 description=Mark your path of looting with spray cans.
 id=spraypaint
 require=bcUtils
+
+modversion=1
+pzversion=32.24
+versionurl=https://raw.githubusercontent.com/Thuztor/SprayPaint/master/mod.info
