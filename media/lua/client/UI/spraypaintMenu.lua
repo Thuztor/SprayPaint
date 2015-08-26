@@ -150,3 +150,16 @@ spraypaintMenu.updateColorButtons = function(object)--{{{
 end
 --}}}
 Events.OnContainerUpdate.Add(spraypaintMenu.updateColorButtons);
+
+spraypaintMenu.showWindowToolbar = function()--{{{ bcToolbar integration
+	spraypaintMenu.showWindow(getPlayer():getPlayerNum(), nil);
+end
+spraypaintMenu.addToolbarButton = function()
+	spraypaintMenu.toolbarButton = ISButton:new(0, 0, 64, 64, "SP", nil, spraypaintMenu.showWindowToolbar);
+	bcToolbar.moveButtonToToolbar(spraypaintMenu.toolbarButton, "Spraypaint");
+end
+if isModEnabled("bcToolbar") then
+	require("bcToolbar");
+	Events.bcToolbarAddButtons.Add(spraypaintMenu.addToolbarButton);
+end
+--}}}
