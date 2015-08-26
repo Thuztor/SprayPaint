@@ -137,12 +137,10 @@ ISInventoryTransferAction.perform = function(self)--{{{
 end
 --}}}
 spraypaintMenu.updateColorButtons = function(object)--{{{
-	print("spraypaintMenu.updateColorButtons");
 	if not spraypaintMenu.window then return end;
 
 	local inv = getPlayer():getInventory();
 	for _,sprayCan in ipairs(sprayCanConf.list) do
-		print("Checking: spraypaint."..sprayCan.name..": "..tostring(inv:FindAndReturn("spraypaint."..sprayCan.name)));
 		if inv:FindAndReturn("spraypaint."..sprayCan.name) then
 			spraypaintMenu.colorButtons[sprayCan.name]:setVisible(true);
 		else
