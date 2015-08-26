@@ -46,5 +46,6 @@ UI_EN = {
 	UI_optionscreen_binding_Northwest   =  "Nordwesten",
 	UI_optionscreen_binding_Northeast   =  "Nordosten",
 	UI_optionscreen_binding_Southwest   =  "Südwesten",
-	UI_optionscreen_binding_Southeast   =  "Südosten"
+	UI_optionscreen_binding_Southeast   =  "Südosten",
+	UI_optionscreen_binding_ToggleSpraypaintWindow = "Menü ein/ausblenden"
 }
