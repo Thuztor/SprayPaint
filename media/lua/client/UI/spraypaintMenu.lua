@@ -4,103 +4,162 @@
 ----------------------------------------------------
 
 spraypaintMenu = {};
-spraypaintMenu.debug = false;
+spraypaintMenu.Color = sprayCanConf.list[1];
+spraypaintMenu.colorButtons = {};
 
--- disables zombie creation (new game) and fatigue/etc if debug is true above
-if spraypaintMenu.debug then
-	SystemDisabler.setDoCharacterStats(false)
-	SystemDisabler.setDoZombieCreation(false)
+spraypaintMenu.showWindow = function(player, useSprayCan)--{{{
+	if useSprayCan then
+		for _,sprayCan in ipairs(sprayCanConf.list) do
+			if useSprayCan and (sprayCan.name == useSprayCan:getType()) then
+				spraypaintMenu.Color = sprayCan;
+			end
+		end
+	end
+
+	if spraypaintMenu.window then
+		spraypaintMenu.window:setVisible(true);
+		return
+	end
+
+	local sprayPanel = ISPanel:new(100, 100, 4 + (4 * 50), 20 + (5 * 50));
+	spraypaintMenu.window = sprayPanel:wrapInCollapsableWindow(getText("UI_SprayOnFloor"));
+	spraypaintMenu.window:setResizable(false);
+
+	local x, y = 0, 0;
+	-- Go through shapes table
+
+	for _,symbolType in ipairs(shapeConf.list[1].symbolTypes) do
+		for _,shape in ipairs(symbolType.shapes) do
+			local btn = ISButton:new(2 + (x * 50), 20 + (y * 50), 48, 48, "", nil, spraypaintMenu.onSpray);
+			btn:setImage(getTexture(shape.name));
+			btn.render = spraypaintMenu.renderShapeButton;
+			btn.player = player;
+			btn.shape = shape;
+			sprayPanel:addChild(btn);
+			x = x + 1;
+			if x >= 4 then
+				y = y + 1;
+				x = 0;
+			end
+		end
+	end
+
+	local inv = getSpecificPlayer(player):getInventory();
+	x = 0;
+	for _,sprayCan in ipairs(sprayCanConf.list) do
+		local btn = ISButton:new(2 + (x * 18), 2, 16, 16, "", nil, spraypaintMenu.selectColor);
+		btn.player = player;
+		btn.item = sprayCan;
+		btn.backgroundColor = { r = sprayCan.red, g = sprayCan.green, b = sprayCan.blue, a = 1.0 };
+		spraypaintMenu.colorButtons[sprayCan.name] = btn;
+		if not inv:FindAndReturn("spraypaint."..sprayCan.name) then
+			btn:setVisible(false);
+		end
+		sprayPanel:addChild(btn);
+		x = x + 1;
+	end
+
+	spraypaintMenu.window:addToUIManager();
 end
+--}}}
 
-spraypaintMenu.doSpraypaintMenu = function(player, context, worldobjects)
-	print ("spraypaintMenu.doSpraypaintMenu("..tostring(player)..", "..tostring(context)..", "..tostring(worldobjects));
+spraypaintMenu.renderShapeButton = function(self)--{{{
+	self:drawTextureScaledAspect(self.image,
+		self:getWidth() / 2 - self.image:getWidth() / 2, self:getHeight() - self.image:getHeight(),
+		self.image:getWidth(), self.image:getHeight(),
+		1, spraypaintMenu.Color.red, spraypaintMenu.Color.green, spraypaintMenu.Color.blue);
+end
+--}}}
+spraypaintMenu.selectColor = function(_, self)--{{{
+	spraypaintMenu.Color = self.item;
+end
+--}}}
+
+spraypaintMenu.onSpray = function(_, self) -- {{{
+	local player = getSpecificPlayer(self.player);
+	local inv = player:getInventory();
+	local sprayCanItem = inv:FindAndReturn("spraypaint."..spraypaintMenu.Color.name);
+	if (not sprayCanItem) or (bcUtils.numUsesLeft(sprayCanItem) < 1) then
+		player:Say("I have no spraycan of that color.");
+		return;
+	end
+
+	if player:getSecondaryHandItem() ~= sprayCanItem then
+		ISTimedActionQueue.add(ISEquipWeaponAction:new(player, sprayCanItem, 50, false));
+	end
+
+	local tag = Tag:new(self.player, sprayCanItem, self.shape.name, spraypaintMenu.Color.red, spraypaintMenu.Color.green, spraypaintMenu.Color.blue);
+
+	getCell():setDrag(tag, player:getPlayerNum());
+end
+--}}}
+
+spraypaintMenu.doSpraypaintMenu = function(player, context, worldobjects)--{{{
 	local playerInventory = getSpecificPlayer(player):getInventory();
 	local playerHasSprayCan = false;
+	local sprayCan = nil;
 
-	-- Do the player has a spray can ?
+	-- Does the player have a spray can ?
 	for _,sprayCan in ipairs(sprayCanConf.list) do
-		if playerInventory:contains(sprayCan.name) then
+		sprayCan = playerInventory:FindAndReturn("spraypaint."..sprayCan.name)
+		if sprayCan then
 			playerHasSprayCan = true;
 			break;
 		end
 	end
 
-	if spraypaintMenu.debug then
-		context:addOption("Give me a white spray can!", worldobjects, spraypaintMenu.giveItem, player, 'spraypaint.SpraycanWhite');
-		context:addOption("Give me a red spray can!", worldobjects, spraypaintMenu.giveItem, player, 'spraypaint.SpraycanRed');
-		context:addOption("Give me a green spray can!", worldobjects, spraypaintMenu.giveItem, player, 'spraypaint.SpraycanGreen');
-		context:addOption("Give me a blue spray can!", worldobjects, spraypaintMenu.giveItem, player, 'spraypaint.SpraycanBlue');
-		context:addOption("Give me a black spray can!", worldobjects, spraypaintMenu.giveItem, player, 'spraypaint.SpraycanBlack');
-		context:addOption("Give me a yellow spray can!", worldobjects, spraypaintMenu.giveItem, player, 'spraypaint.SpraycanYellow');
-		context:addOption("Give me a orange spray can!", worldobjects, spraypaintMenu.giveItem, player, 'spraypaint.SpraycanOrange');
-		context:addOption("Give me a violet spray can!", worldobjects, spraypaintMenu.giveItem, player, 'spraypaint.SpraycanViolet');
-		context:addOption("Give me a cyan spray can!", worldobjects, spraypaintMenu.giveItem, player, 'spraypaint.SpraycanCyan');
-	end
-
 	-- Contextual menu creation if player has a spray can
 	if playerHasSprayCan then
+		context:addOption(getText("UI_SprayOnFloor"), player, spraypaintMenu.showWindow, sprayCan);
+	end
+end
+--}}}
+Events.OnFillWorldObjectContextMenu.Add(spraypaintMenu.doSpraypaintMenu);
 
-		-- Go through shapes table
-		for _,place in ipairs(shapeConf.list) do
-			local placeOption = context:addOption(place.text, worldobjects, nil);
-			local placeSubMenu = context:getNew(context);
-			context:addSubMenu(placeOption, placeSubMenu);
+spraypaintMenu.doInventoryMenu = function(player, context, items) -- {{{
+	local item = items[1];
+	if not instanceof(item, "InventoryItem") then
+		item = item.items[1];
+	end
+	if item == nil then return end;
 
-			for _,symbolType in ipairs(place.symbolTypes) do
-				local symbolTypeOption = placeSubMenu:addOption(symbolType.text, worldobjects, nil);
-				local symbolTypeOptionSubMenu = placeSubMenu:getNew(placeSubMenu);
-				context:addSubMenu(symbolTypeOption, symbolTypeOptionSubMenu);
+	if luautils.stringStarts(item:getType(), "Spraycan") then
+		context:addOption(getText("UI_SprayOnFloor"), player, spraypaintMenu.showWindow, item);
+	end
+end
+-- }}}
+Events.OnFillInventoryObjectContextMenu.Add(spraypaintMenu.doInventoryMenu);
 
-				for _,shape in ipairs(symbolType.shapes) do
-					local shapeOption = symbolTypeOptionSubMenu:addOption(shape.text, worldobjects, nil);
-					local colorSubMenu = symbolTypeOptionSubMenu:getNew(symbolTypeOptionSubMenu);
-					context:addSubMenu(shapeOption, colorSubMenu);
+spraypaintMenu.ISITAPerform = ISInventoryTransferAction.perform;
+ISInventoryTransferAction.perform = function(self)--{{{
+	spraypaintMenu.ISITAPerform(self);
+	spraypaintMenu.updateColorButtons(nil);
+end
+--}}}
+spraypaintMenu.updateColorButtons = function(object)--{{{
+	if not spraypaintMenu.window then return end;
 
-					for _,sprayCan in ipairs(sprayCanConf.list) do
-						local sprayCanItem = nil;
-						local canUseThisSprayCan = false;
-						local handItem = getSpecificPlayer(player):getSecondaryHandItem();
-
-						if handItem and handItem:getType() == sprayCan.name and math.floor(handItem:getUsedDelta()/handItem:getUseDelta()) > 0 then
-							canUseThisSprayCan = true;
-							sprayCanItem = handItem;
-						else
-							for i = 0, getSpecificPlayer(player):getInventory():getItems():size() - 1 do
-								sprayCanItem = getSpecificPlayer(player):getInventory():getItems():get(i);
-								if sprayCanItem:getType() == sprayCan.name and math.floor(sprayCanItem:getUsedDelta()/sprayCanItem:getUseDelta()) > 0 then
-									canUseThisSprayCan = true;
-									break;
-								end
-							end
-						end
-
-						if canUseThisSprayCan then
-							colorSubMenu:addOption(sprayCan.text, worldobjects, spraypaintMenu.onSpray, player, sprayCanItem, shape.name, sprayCan);
-						end
-					end
-				end
-			end
+	local inv = getPlayer():getInventory();
+	for _,sprayCan in ipairs(sprayCanConf.list) do
+		if inv:FindAndReturn("spraypaint."..sprayCan.name) then
+			spraypaintMenu.colorButtons[sprayCan.name]:setVisible(true);
+		else
+			spraypaintMenu.colorButtons[sprayCan.name]:setVisible(false);
 		end
 	end
 end
+--}}}
+Events.OnContainerUpdate.Add(spraypaintMenu.updateColorButtons);
 
-spraypaintMenu.onSpray = function(worldobjects, player, sprayCanItem, shape, sprayCan)
-	print("spraypaintMenu.onSpray");
-	if getSpecificPlayer(player):getSecondaryHandItem() ~= sprayCanItem then
-		ISTimedActionQueue.add(ISEquipWeaponAction:new(getSpecificPlayer(player), sprayCanItem, 50, false));
-	end
-
-	local tag = Tag:new(player, sprayCanItem, shape, sprayCan.red, sprayCan.green, sprayCan.blue);
-
-	player = getSpecificPlayer(player);
-	getCell():setDrag(tag, player:getPlayerNum());
+spraypaintMenu.showWindowToolbar = function()--{{{ bcToolbar integration
+	spraypaintMenu.showWindow(getPlayer():getPlayerNum(), nil);
 end
-
-spraypaintMenu.giveItem = function()
-	print("spraypaintMenu.giveItem");
-	spraypaintMenu.giveItem = function(worldobjects, player, item)
-		getSpecificPlayer(player):getInventory():AddItem(item);
-	end
+spraypaintMenu.addToolbarButton = function()
+	spraypaintMenu.toolbarButton = ISButton:new(0, 0, 64, 64, "SP", nil, spraypaintMenu.showWindowToolbar);
+	bcToolbar.moveButtonToToolbar(spraypaintMenu.toolbarButton, "Spraypaint");
 end
-
-Events.OnFillWorldObjectContextMenu.Add(spraypaintMenu.doSpraypaintMenu);
+if getActivatedMods():contains("bcToolbar") then
+	require("bcToolbar");
+	Events.bcToolbarAddButtons.Add(spraypaintMenu.addToolbarButton);
+end
+--}}}

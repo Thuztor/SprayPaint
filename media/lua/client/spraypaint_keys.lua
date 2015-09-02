@@ -1,7 +1,6 @@
 local sprayBindings = {}
 
 local function addBind(name, key)
-	print("addBind("..tostring(name)..", "..tostring(key)..")");
 	local bind = {}
 	bind.value = name
 	bind.key = key
@@ -18,7 +17,6 @@ end
 -- I don't know if this is possible from the options menu.
 -- The below are default values.
 
-print("Spraypaint adding keyBinding options");
 table.insert(keyBinding, {value="[Spraypaint]"}) -- adds a section header to keys.ini and the options screen
 addBind("Looted", 20) -- T
 addBind("Hordes", 0)
@@ -40,8 +38,9 @@ addBind("Northeast", 77) --
 addBind("Southwest", 75) -- 
 addBind("Southeast", 80) -- 
 
+addBind("ToggleSpraypaintWindow", 0); -- show/hide spraypaint window
+
 local function getSprayByName(name)
-	print ("getSprayByName("..tostring(name)..")");
 	for _,place in ipairs(shapeConf.list) do
 		for _,symbolType in ipairs(place.symbolTypes) do
 			for _,shape in ipairs(symbolType.shapes) do
@@ -55,11 +54,10 @@ local function getSprayByName(name)
 end
 
 local function findFirstUsableCan(inventory)
-	print("findFirstUsableCan("..tostring(inventory)..")");
 	for i = 0,inventory:size() - 1 do
 		local item = inventory:get(i)
 		for _,sprayCan in ipairs(sprayCanConf.list) do
-			if item:getType() == sprayCan.name and math.floor(item:getUsedDelta()/item:getUseDelta()) > 0 then
+			if item:getType() == sprayCan.name and bcUtils.numUsesLeft(item) > 0 then
 				return item,sprayCan
 			end
 		end
@@ -68,10 +66,8 @@ local function findFirstUsableCan(inventory)
 end
 
 Events.OnKeyPressed.Add(function (key)
-	print("Events.OnKeyPressed.Add("..tostring(key)..")");
 	for _,bind in ipairs(sprayBindings) do
 		if bind.key == key and getSpecificPlayer(0) ~= nil then
-			print(bind.value .. ' pressed')
 			local shape = getSprayByName(bind.value)
 			local inventory = getSpecificPlayer(0):getInventory():getItems()
 			local sprayCanItem,sprayCanColour = findFirstUsableCan(inventory)
