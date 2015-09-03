@@ -7,11 +7,29 @@ spraypaintMenu = {};
 spraypaintMenu.Color = sprayCanConf.list[1];
 spraypaintMenu.colorButtons = {};
 
-spraypaintMenu.hideWindow = function(self)
+spraypaintMenu.hideWindow = function(self) -- {{{
 	ISCollapsableWindow.close(self);
 	spraypaintMenu.toolbarButton:setImage(spraypaintMenu.textureOff);
 end
+-- }}}
+spraypaintMenu.addTab = function(name)
+  spraypaintMenu.mainPanel = ISPanelJoypad:new(0, 48, spraypaintMenu.window:getWidth(), spraypaintMenu.window:getHeight() - (48 * 2) - spraypaintMenu.window.nested.tabHeight)
+  spraypaintMenu.mainPanel:initialise()
+  spraypaintMenu.mainPanel:instantiate()
+  spraypaintMenu.mainPanel:setAnchorRight(true)
+  spraypaintMenu.mainPanel:setAnchorLeft(true)
+  spraypaintMenu.mainPanel:setAnchorTop(true)
+  spraypaintMenu.mainPanel:setAnchorBottom(true)
+  spraypaintMenu.mainPanel:noBackground()
+  spraypaintMenu.mainPanel.borderColor = {r=0, g=0, b=0, a=0};
+  spraypaintMenu.mainPanel:setScrollChildren(true)
 
+  spraypaintMenu.mainPanel.onJoypadDown = MainOptions.onJoypadDownCurrentTab
+  spraypaintMenu.mainPanel.onGainJoypadFocus = MainOptions.onGainJoypadFocusCurrentTab
+
+  spraypaintMenu.mainPanel:addScrollBars();
+  spraypaintMenu.window.nested:addView(name, spraypaintMenu.mainPanel)
+end
 spraypaintMenu.showWindow = function(player, useSprayCan)--{{{
 	if useSprayCan then
 		for _,sprayCan in ipairs(sprayCanConf.list) do
@@ -24,14 +42,22 @@ spraypaintMenu.showWindow = function(player, useSprayCan)--{{{
 	if spraypaintMenu.window then
 		spraypaintMenu.window:setVisible(true);
 		spraypaintMenu.toolbarButton:setImage(spraypaintMenu.textureOn);
-		return
+		return;
 	end
 
-	local sprayPanel = ISPanel:new(100, 100, 4 + (4 * 50), 20 + (5 * 50));
-	spraypaintMenu.window = sprayPanel:wrapInCollapsableWindow(getText("UI_SprayOnFloor"));
+  local sprayPanel = ISTabPanel:new(100, 100, 4 + (4 * 50), 40 + (5 * 50));
+  sprayPanel:initialise();
+  sprayPanel:setAnchorBottom(true);
+  sprayPanel:setAnchorRight(true);
+  sprayPanel.target = self;
+  sprayPanel:setEqualTabWidth(true)
+  sprayPanel:setCenterTabs(true)
+	spraypaintMenu.window = sprayPanel:wrapInCollapsableWindow("Spraypaint");
 	spraypaintMenu.window.close = spraypaintMenu.hideWindow;
 	spraypaintMenu.window.closeButton.onmousedown = spraypaintMenu.hideWindow;
 	spraypaintMenu.window:setResizable(false);
+
+	spraypaintMenu.addTab(getText("UI_SprayOnFloor"));
 
 	local x, y = 0, 0;
 	-- Go through shapes table
@@ -43,7 +69,7 @@ spraypaintMenu.showWindow = function(player, useSprayCan)--{{{
 			btn.render = spraypaintMenu.renderShapeButton;
 			btn.player = player;
 			btn.shape = shape;
-			sprayPanel:addChild(btn);
+			spraypaintMenu.mainPanel:addChild(btn);
 			x = x + 1;
 			if x >= 4 then
 				y = y + 1;
@@ -63,9 +89,11 @@ spraypaintMenu.showWindow = function(player, useSprayCan)--{{{
 		if not inv:FindAndReturn("spraypaint."..sprayCan.name) then
 			btn:setVisible(false);
 		end
-		sprayPanel:addChild(btn);
+		spraypaintMenu.mainPanel:addChild(btn);
 		x = x + 1;
 	end
+
+	spraypaintMenu.addTab(getText("UI_ChalkOnFloor"));
 
 	spraypaintMenu.window:addToUIManager();
 	spraypaintMenu.toolbarButton:setImage(spraypaintMenu.textureOn);
