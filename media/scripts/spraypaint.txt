@@ -22,7 +22,7 @@ module spraypaint
 	{
 		Type              =  Drainable,
 		DisplayName       =  Spraycan (White),
-		Icon              =  items/Item_TZ_Spraycan_White.png,
+		Icon              =  TZ_Spraycan_White.png,
 		UseDelta          =  0.025,
 		UseWhileEquipped  =  false,
 		Weight            =  0.5,
@@ -32,7 +32,7 @@ module spraypaint
 	{
 		Type              =  Drainable,
 		DisplayName       =  Spraycan (Red),
-		Icon              =  items/Item_TZ_Spraycan_Red.png,
+		Icon              =  TZ_Spraycan_Red.png,
 		UseDelta          =  0.025,
 		UseWhileEquipped  =  false,
 		Weight            =  0.5,
@@ -42,7 +42,7 @@ module spraypaint
 	{
 		Type              =  Drainable,
 		DisplayName       =  Spraycan (Blue),
-		Icon              =  items/Item_TZ_Spraycan_Blue.png,
+		Icon              =  TZ_Spraycan_Blue.png,
 		UseDelta          =  0.025,
 		UseWhileEquipped  =  false,
 		Weight            =  0.5,
@@ -52,7 +52,7 @@ module spraypaint
 	{
 		Type              =  Drainable,
 		DisplayName       =  Spraycan (Green),
-		Icon              =  items/Item_TZ_Spraycan_Green.png,
+		Icon              =  TZ_Spraycan_Green.png,
 		UseDelta          =  0.025,
 		UseWhileEquipped  =  false,
 		Weight            =  0.5,
@@ -62,7 +62,7 @@ module spraypaint
 	{
 		Type              =  Drainable,
 		DisplayName       =  Spraycan (Orange),
-		Icon              =  items/Item_TZ_Spraycan_Orange.png,
+		Icon              =  TZ_Spraycan_Orange.png,
 		UseDelta          =  0.025,
 		UseWhileEquipped  =  false,
 		Weight            =  0.5,
@@ -72,7 +72,7 @@ module spraypaint
 	{
 		Type              =  Drainable,
 		DisplayName       =  Spraycan (Yellow),
-		Icon              =  items/Item_TZ_Spraycan_Yellow.png,
+		Icon              =  TZ_Spraycan_Yellow.png,
 		UseDelta          =  0.025,
 		UseWhileEquipped  =  false,
 		Weight            =  0.5,
@@ -82,7 +82,7 @@ module spraypaint
 	{
 		Type              =  Drainable,
 		DisplayName       =  Spraycan (Violet),
-		Icon              =  items/Item_TZ_Spraycan_Violet.png,
+		Icon              =  TZ_Spraycan_Violet.png,
 		UseDelta          =  0.025,
 		UseWhileEquipped  =  false,
 		Weight            =  0.5,
@@ -92,7 +92,7 @@ module spraypaint
 	{
 		Type              =  Drainable,
 		DisplayName       =  Spraycan (Black),
-		Icon              =  items/Item_TZ_Spraycan_Black.png,
+		Icon              =  TZ_Spraycan_Black.png,
 		UseDelta          =  0.025,
 		UseWhileEquipped  =  false,
 		Weight            =  0.5,
@@ -102,7 +102,7 @@ module spraypaint
 	{
 		Type              =  Drainable,
 		DisplayName       =  Spraycan (Cyan),
-		Icon              =  items/Item_TZ_Spraycan_Cyan.png,
+		Icon              =  TZ_Spraycan_Cyan.png,
 		UseDelta          =  0.025,
 		UseWhileEquipped  =  false,
 		Weight            =  0.5,
