@@ -11,65 +11,82 @@ shapeConf.list = {
 			{
 				text = getText("UI_SimpleSymbol"), shapes = {
 					{ id = '', name = 'media/textures/Tags/Item_tz_CROSS_Floor.png',
-						icon = 'media/textures/Icons/Icon_CROSS.png', text = getText('UI_Cross')
+						chalk = 'media/textures/Chalk/Item_tz_CROSS_Floor_Chalk.png',
+						icon = 'media/textures/Icons/Icon_CROSS.png', text = "Cross"
 					},
 					{ id = '', name = 'media/textures/Tags/Item_tz_SQUARE_Floor.png',
-						icon = 'media/textures/Icons/Icon_SQUARE.png', text = getText('UI_Square')
+						chalk = 'media/textures/Chalk/Item_tz_SQUARE_Floor_Chalk.png',
+						icon = 'media/textures/Icons/Icon_SQUARE.png', text = "Square"
 					},
 					{ id = '', name = 'media/textures/Tags/Item_tz_CIRCLE_Floor.png',
-						icon = 'media/textures/Icons/Icon_CIRCLE.png', text = getText('UI_Circle')
+						chalk = 'media/textures/Chalk/Item_tz_CIRCLE_Floor_Chalk.png',
+						icon = 'media/textures/Icons/Icon_CIRCLE.png', text = "Circle"
 					},
 					{ id = '', name = 'media/textures/Tags/Item_tz_TRIANGLE_Floor.png',
-						icon = 'media/textures/Icons/Icon_TRIANGLE.png', text = getText('UI_Triangle')
+						chalk = 'media/textures/Chalk/Item_tz_TRIANGLE_Floor_Chalk.png',
+						icon = 'media/textures/Icons/Icon_TRIANGLE.png', text = "Triangle"
 					},
 				}
 			},
 
 			{
-				text = getText('UI_Arrow'), shapes = {
+				text = "Arrow", shapes = {
 					{ id = '', name = 'media/textures/Tags/Item_tz_ArrowWEST_Floor.png',
-						icon = 'media/textures/Icons/Icon_ArrowWEST.png', text = getText('UI_West')
+						chalk = 'media/textures/Chalk/Item_tz_ArrowWEST_Floor_Chalk.png',
+						icon = 'media/textures/Icons/Icon_ArrowWEST.png', text = "West"
 					},
 					{ id = '', name = 'media/textures/Tags/Item_tz_ArrowNORTH_Floor.png',
-						icon = 'media/textures/Icons/Icon_ArrowNORTH.png', text = getText('UI_North')
+						chalk = 'media/textures/Chalk/Item_tz_ArrowNORTH_Floor_Chalk.png',
+						icon = 'media/textures/Icons/Icon_ArrowNORTH.png', text = "North"
 					},
 					{ id = '', name = 'media/textures/Tags/Item_tz_ArrowSOUTH_Floor.png',
-						icon = 'media/textures/Icons/Icon_ArrowSOUTH.png', text = getText('UI_South')
+						chalk = 'media/textures/Chalk/Item_tz_ArrowSOUTH_Floor_Chalk.png',
+						icon = 'media/textures/Icons/Icon_ArrowSOUTH.png', text = "South"
 					},
 					{ id = '', name = 'media/textures/Tags/Item_tz_ArrowEAST_Floor.png',
-						icon = 'media/textures/Icons/Icon_ArrowEAST.png', text = getText('UI_East')
+						chalk = 'media/textures/Chalk/Item_tz_ArrowEAST_Floor_Chalk.png',
+						icon = 'media/textures/Icons/Icon_ArrowEAST.png', text = "East"
 					},
 					{ id = '', name = 'media/textures/Tags/Item_tz_ArrowNORTHWEST_Floor.png',
-						icon = 'media/textures/Icons/Icon_ArrowNORTHWEST.png', text = getText('UI_Northwest')
+						chalk = 'media/textures/Chalk/Item_tz_ArrowNORTHWEST_Floor_Chalk.png',
+						icon = 'media/textures/Icons/Icon_ArrowNORTHWEST.png', text = "Northwest"
 					},
 					{ id = '', name = 'media/textures/Tags/Item_tz_ArrowNORTHEAST_Floor.png',
-						icon = 'media/textures/Icons/Icon_ArrowNORTHEAST.png', text = getText('UI_Northeast')
+						chalk = 'media/textures/Chalk/Item_tz_ArrowNORTHEAST_Floor_Chalk.png',
+						icon = 'media/textures/Icons/Icon_ArrowNORTHEAST.png', text = "Northeast"
 					},
 					{ id = '', name = 'media/textures/Tags/Item_tz_ArrowSOUTHWEST_Floor.png',
-						icon = 'media/textures/Icons/Icon_ArrowSOUTHWEST.png', text = getText('UI_Southwest')
+						chalk = 'media/textures/Chalk/Item_tz_ArrowSOUTHWEST_Floor_Chalk.png',
+						icon = 'media/textures/Icons/Icon_ArrowSOUTHWEST.png', text = "Southwest"
 					},
 					{ id = '', name = 'media/textures/Tags/Item_tz_ArrowSOUTHEAST_Floor.png',
-						icon = 'media/textures/Icons/Icon_ArrowSOUTHEAST.png', text = getText('UI_Southeast')
+						chalk = 'media/textures/Chalk/Item_tz_ArrowSOUTHEAST_Floor_Chalk.png',
+						icon = 'media/textures/Icons/Icon_ArrowSOUTHEAST.png', text = "Southeast"
 					},
 				}
 			},
 
 			{
-				text = getText('UI_SpecialMeaningSymbol'), shapes = {
+				text = "SpecialMeaningSymbol", shapes = {
 					{ id = '', name = 'media/textures/Tags/Item_tz_LOOTED_Floor.png',
-						icon = 'media/textures/Icons/Icon_LOOTED.png', text = getText('UI_Looted')
+						chalk = 'media/textures/Chalk/Item_tz_LOOTED_Floor_Chalk.png',
+						icon = 'media/textures/Icons/Icon_LOOTED.png', text = "Looted"
 					},
 					{ id = '', name = 'media/textures/Tags/Item_tz_HORDES_Floor.png',
-						icon = 'media/textures/Icons/Icon_HORDES.png', text = getText('UI_Hordes')
+						chalk = 'media/textures/Chalk/Item_tz_HORDES_Floor_Chalk.png',
+						icon = 'media/textures/Icons/Icon_HORDES.png', text = "Hordes"
 					},
 					{ id = '', name = 'media/textures/Tags/Item_tz_NOTSAFE_Floor.png',
-						icon = 'media/textures/Icons/Icon_NOTSAFE.png', text = getText('UI_NotSafe')
+						chalk = 'media/textures/Chalk/Item_tz_NOTSAFE_Floor_Chalk.png',
+						icon = 'media/textures/Icons/Icon_NOTSAFE.png', text = "NotSafe"
 					},
 					{ id = '', name = 'media/textures/Tags/Item_tz_SAFE_Floor.png',
-						icon = 'media/textures/Icons/Icon_SAFE.png', text = getText('UI_Safe')
+						chalk = 'media/textures/Chalk/Item_tz_SAFE_Floor_Chalk.png',
+						icon = 'media/textures/Icons/Icon_SAFE.png', text = "Safe"
 					},
 					{ id = '', name = 'media/textures/Tags/Item_tz_SAFEHOUSE_Floor.png',
-						icon = 'media/textures/Icons/Icon_SAFEHOUSE.png', text = getText('UI_SafeHouse')
+						chalk = 'media/textures/Chalk/Item_tz_SAFEHOUSE_Floor_Chalk.png',
+						icon = 'media/textures/Icons/Icon_SAFEHOUSE.png', text = "Safehouse"
 					},
 				}
 			}

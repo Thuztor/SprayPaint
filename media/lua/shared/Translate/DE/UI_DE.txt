@@ -1,5 +1,6 @@
 UI_EN = {
 	UI_SprayOnFloor                     =  "Symbol sprühen",
+	UI_ChalkOnFloor                     =  "Kreidesymbol",
 	UI_SimpleSymbol                     =  "Einfaches Symbol",
 	UI_Arrow                            =  "Pfeil",
 	UI_Cross                            =  "Kreuz",

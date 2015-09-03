@@ -4,7 +4,8 @@
 ----------------------------------------------------
 
 spraypaintMenu = {};
-spraypaintMenu.Color = sprayCanConf.list[1];
+spraypaintMenu.ColorSpray = sprayCanConf.list[1];
+spraypaintMenu.ColorChalk = sprayCanConf.listChalk[1];
 spraypaintMenu.colorButtons = {};
 
 spraypaintMenu.hideWindow = function(self) -- {{{
@@ -12,7 +13,7 @@ spraypaintMenu.hideWindow = function(self) -- {{{
 	spraypaintMenu.toolbarButton:setImage(spraypaintMenu.textureOff);
 end
 -- }}}
-spraypaintMenu.addTab = function(name)
+spraypaintMenu.addTab = function(name) -- {{{
   spraypaintMenu.mainPanel = ISPanelJoypad:new(0, 48, spraypaintMenu.window:getWidth(), spraypaintMenu.window:getHeight() - (48 * 2) - spraypaintMenu.window.nested.tabHeight)
   spraypaintMenu.mainPanel:initialise()
   spraypaintMenu.mainPanel:instantiate()
@@ -30,11 +31,18 @@ spraypaintMenu.addTab = function(name)
   spraypaintMenu.mainPanel:addScrollBars();
   spraypaintMenu.window.nested:addView(name, spraypaintMenu.mainPanel)
 end
+-- }}}
 spraypaintMenu.showWindow = function(player, useSprayCan)--{{{
 	if useSprayCan then
 		for _,sprayCan in ipairs(sprayCanConf.list) do
 			if useSprayCan and (sprayCan.name == useSprayCan:getType()) then
-				spraypaintMenu.Color = sprayCan;
+				spraypaintMenu.ColorSpray = sprayCan;
+			end
+		end
+
+		for _,chalk in ipairs(sprayCanConf.listChalk) do
+			if useSprayCan and (chalk.name == useSprayCan:getType()) then
+				spraypaintMenu.ColorSpray = chalk;
 			end
 		end
 	end
@@ -66,7 +74,7 @@ spraypaintMenu.showWindow = function(player, useSprayCan)--{{{
 		for _,shape in ipairs(symbolType.shapes) do
 			local btn = ISButton:new(2 + (x * 50), 20 + (y * 50), 48, 48, "", nil, spraypaintMenu.onSpray);
 			btn:setImage(getTexture(shape.icon));
-			btn.render = spraypaintMenu.renderShapeButton;
+			btn.render = spraypaintMenu.renderShapeButtonSpray;
 			btn.player = player;
 			btn.shape = shape;
 			spraypaintMenu.mainPanel:addChild(btn);
@@ -95,27 +103,70 @@ spraypaintMenu.showWindow = function(player, useSprayCan)--{{{
 
 	spraypaintMenu.addTab(getText("UI_ChalkOnFloor"));
 
+	x, y = 0, 0;
+	for _,symbolType in ipairs(shapeConf.list[1].symbolTypes) do
+		for _,shape in ipairs(symbolType.shapes) do
+			local btn = ISButton:new(2 + (x * 50), 20 + (y * 50), 48, 48, "", nil, spraypaintMenu.onChalk);
+			btn:setImage(getTexture(shape.icon));
+			btn.render = spraypaintMenu.renderShapeButtonChalk;
+			btn.player = player;
+			btn.shape = shape;
+			spraypaintMenu.mainPanel:addChild(btn);
+			x = x + 1;
+			if x >= 4 then
+				y = y + 1;
+				x = 0;
+			end
+		end
+	end
+
+	local inv = getSpecificPlayer(player):getInventory();
+	x = 0;
+	for _,chalk in ipairs(sprayCanConf.listChalk) do
+		local btn = ISButton:new(2 + (x * 18), 2, 16, 16, "", nil, spraypaintMenu.selectColor);
+		btn.player = player;
+		btn.item = chalk;
+		btn.backgroundColor = { r = chalk.red, g = chalk.green, b = chalk.blue, a = 1.0 };
+		spraypaintMenu.colorButtons[chalk.name] = btn;
+		if not inv:FindAndReturn("spraypaint."..chalk.name) then
+			btn:setVisible(false);
+		end
+		spraypaintMenu.mainPanel:addChild(btn);
+		x = x + 1;
+	end
+
 	spraypaintMenu.window:addToUIManager();
 	spraypaintMenu.toolbarButton:setImage(spraypaintMenu.textureOn);
 end
 --}}}
 
-spraypaintMenu.renderShapeButton = function(self)--{{{
+spraypaintMenu.renderShapeButtonSpray = function(self)--{{{
 	self:drawTextureScaledAspect(self.image,
 		self:getWidth() / 2 - self.image:getWidth() / 2, self:getHeight() - self.image:getHeight(),
 		self.image:getWidth(), self.image:getHeight(),
-		1, spraypaintMenu.Color.red, spraypaintMenu.Color.green, spraypaintMenu.Color.blue);
+		1, spraypaintMenu.ColorSpray.red, spraypaintMenu.ColorSpray.green, spraypaintMenu.ColorSpray.blue);
+end
+--}}}
+spraypaintMenu.renderShapeButtonChalk = function(self)--{{{
+	self:drawTextureScaledAspect(self.image,
+		self:getWidth() / 2 - self.image:getWidth() / 2, self:getHeight() - self.image:getHeight(),
+		self.image:getWidth(), self.image:getHeight(),
+		1, spraypaintMenu.ColorChalk.red, spraypaintMenu.ColorChalk.green, spraypaintMenu.ColorChalk.blue);
 end
 --}}}
 spraypaintMenu.selectColor = function(_, self)--{{{
-	spraypaintMenu.Color = self.item;
+	if luautils.stringStarts(self.item.name, "Spray") then
+		spraypaintMenu.ColorSpray = self.item;
+	else
+		spraypaintMenu.ColorChalk = self.item;
+	end
 end
 --}}}
 
 spraypaintMenu.onSpray = function(_, self) -- {{{
 	local player = getSpecificPlayer(self.player);
 	local inv = player:getInventory();
-	local sprayCanItem = inv:FindAndReturn("spraypaint."..spraypaintMenu.Color.name);
+	local sprayCanItem = inv:FindAndReturn("spraypaint."..spraypaintMenu.ColorSpray.name);
 	if (not sprayCanItem) or (bcUtils.numUsesLeft(sprayCanItem) < 1) then
 		player:Say("I have no spraycan of that color.");
 		return;
@@ -125,12 +176,31 @@ spraypaintMenu.onSpray = function(_, self) -- {{{
 		ISTimedActionQueue.add(ISEquipWeaponAction:new(player, sprayCanItem, 50, false));
 	end
 
-	local tag = Tag:new(self.player, sprayCanItem, self.shape.name, spraypaintMenu.Color.red, spraypaintMenu.Color.green, spraypaintMenu.Color.blue);
+	local tag = Tag:new(self.player, sprayCanItem, self.shape.name, spraypaintMenu.ColorSpray.red, spraypaintMenu.ColorSpray.green, spraypaintMenu.ColorSpray.blue);
+
+	getCell():setDrag(tag, player:getPlayerNum());
+end
+--}}}
+spraypaintMenu.onChalk = function(_, self) -- {{{
+	local player = getSpecificPlayer(self.player);
+	local inv = player:getInventory();
+	local chalkItem = inv:FindAndReturn("spraypaint."..spraypaintMenu.ColorChalk.name);
+	if (not chalkItem) or (bcUtils.numUsesLeft(chalkItem) < 1) then
+		player:Say("I have no chalk of that color.");
+		return;
+	end
+
+	if player:getSecondaryHandItem() ~= chalkItem then
+		ISTimedActionQueue.add(ISEquipWeaponAction:new(player, chalkItem, 50, false));
+	end
+
+	local tag = Tag:new(self.player, chalkItem, self.shape.chalk, spraypaintMenu.ColorChalk.red, spraypaintMenu.ColorChalk.green, spraypaintMenu.ColorChalk.blue);
 
 	getCell():setDrag(tag, player:getPlayerNum());
 end
 --}}}
 
+-- TODO -- REMOVE -- 
 spraypaintMenu.doSpraypaintMenu = function(player, context, worldobjects)--{{{
 	local playerInventory = getSpecificPlayer(player):getInventory();
 	local playerHasSprayCan = false;
@@ -166,6 +236,7 @@ spraypaintMenu.doInventoryMenu = function(player, context, items) -- {{{
 end
 -- }}}
 Events.OnFillInventoryObjectContextMenu.Add(spraypaintMenu.doInventoryMenu);
+-- EVOMER -- ODOT --
 
 spraypaintMenu.ISITAPerform = ISInventoryTransferAction.perform;
 ISInventoryTransferAction.perform = function(self)--{{{
@@ -182,6 +253,14 @@ spraypaintMenu.updateColorButtons = function(object)--{{{
 			spraypaintMenu.colorButtons[sprayCan.name]:setVisible(true);
 		else
 			spraypaintMenu.colorButtons[sprayCan.name]:setVisible(false);
+		end
+	end
+
+	for _,chalk in ipairs(sprayCanConf.listChalk) do
+		if inv:FindAndReturn("spraypaint."..chalk.name) then
+			spraypaintMenu.colorButtons[chalk.name]:setVisible(true);
+		else
+			spraypaintMenu.colorButtons[chalk.name]:setVisible(false);
 		end
 	end
 end

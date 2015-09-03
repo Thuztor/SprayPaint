@@ -18,9 +18,9 @@ end
 -- The below are default values.
 
 table.insert(keyBinding, {value="[Spraypaint]"}) -- adds a section header to keys.ini and the options screen
-addBind("Looted", 20) -- T
+addBind("Looted", 0)
 addBind("Hordes", 0)
-addBind("NotSafe", 21) -- Y
+addBind("NotSafe", 0)
 addBind("Safe", 0)
 addBind("Safehouse", 0)
 
@@ -29,14 +29,14 @@ addBind("Square", 0)
 addBind("Circle", 0)
 addBind("Triangle", 0)
 
-addBind("West", 71) -- y decreasing is north, x decreasing is west
-addBind("North", 73) --
-addBind("South", 79) -- 
-addBind("East", 81) -- 
-addBind("Northwest", 72) -- 
-addBind("Northeast", 77) -- 
-addBind("Southwest", 75) -- 
-addBind("Southeast", 80) -- 
+addBind("West", 0) -- y decreasing is north, x decreasing is west
+addBind("North", 0)
+addBind("South", 0)
+addBind("East", 0)
+addBind("Northwest", 0)
+addBind("Northeast", 0)
+addBind("Southwest", 0)
+addBind("Southeast", 0)
 
 addBind("ToggleSpraypaintWindow", 0); -- show/hide spraypaint window
 
@@ -58,7 +58,12 @@ local function findFirstUsableCan(inventory)
 		local item = inventory:get(i)
 		for _,sprayCan in ipairs(sprayCanConf.list) do
 			if item:getType() == sprayCan.name and bcUtils.numUsesLeft(item) > 0 then
-				return item,sprayCan
+				return item,sprayCan,"name" -- ugly
+			end
+		end
+		for _,chalk in ipairs(sprayCanConf.listChalk) do
+			if item:getType() == chalk.name and bcUtils.numUsesLeft(item) > 0 then
+				return item,chalk,"chalk"
 			end
 		end
 	end
@@ -67,12 +72,18 @@ end
 
 Events.OnKeyPressed.Add(function (key)
 	for _,bind in ipairs(sprayBindings) do
-		if bind.key == key and getSpecificPlayer(0) ~= nil then
+		if getCore():getKey(bind.value) == key and getSpecificPlayer(0) ~= nil then
+			local player = getSpecificPlayer(0);
+			local inv = player:getInventory();
 			local shape = getSprayByName(bind.value)
-			local inventory = getSpecificPlayer(0):getInventory():getItems()
-			local sprayCanItem,sprayCanColour = findFirstUsableCan(inventory)
+			local items = inv:getItems()
+			local sprayCanItem,sprayCanColour,what = findFirstUsableCan(items)
 			if shape ~= nil and sprayCanItem ~= nil then
-				spraypaintMenu.onSpray(nil, getSpecificPlayer(0), sprayCanItem, shape.name, sprayCanColour)
+				if player:getSecondaryHandItem() ~= sprayCanItem then
+					ISTimedActionQueue.add(ISEquipWeaponAction:new(player, sprayCanItem, 50, false));
+				end
+				local tag = Tag:new(player:getPlayerNum(), sprayCanItem, shape[what], sprayCanColour.red, sprayCanColour.green, sprayCanColour.blue);
+				getCell():setDrag(tag, player:getPlayerNum());
 			end
 		end
 	end

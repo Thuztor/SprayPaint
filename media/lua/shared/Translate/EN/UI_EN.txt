@@ -1,5 +1,6 @@
 UI_EN = {
 	UI_SprayOnFloor                     = "Spray on floor",
+	UI_ChalkOnFloor                     = "Chalk on floor",
 	UI_SimpleSymbol                     = "Simple symbol",
 	UI_Arrow                            = "Arrow",
 	UI_Cross                            = "Cross",
