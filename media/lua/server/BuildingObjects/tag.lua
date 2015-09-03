@@ -11,7 +11,6 @@ Tag = ISBuildingObject:derive("Tag");
 -- Launch the placing tag action
 --
 function Tag:create(x, y, z, north, sprite)
-	print("Tag:create("..x..", "..y..", "..z..", "..tostring(north)..", "..tostring(sprite)..")");
 	-- if player has dropped or unequipped spray can, disallow using spraypaint 
 	-- (you could drop a spray can on the ground and continue using it)
 	-- probably a better idea to listen for an event than check here after the timed action completes
@@ -51,7 +50,6 @@ end
 -- Test if it's possible to place a symbol where the mouse (with ghost tile) is pointing
 --
 function Tag:isValid(square, north)
-	print("Tag:isValid("..tostring(square)..", "..tostring(north)..")");
 	local result = true;
 
 	for i = 0, square:getObjects():size() - 1 do
@@ -81,7 +79,6 @@ end
 --
 --
 function Tag:render(x, y, z, square, north)
-	print("Tag:render("..x..", "..y..", "..z..", "..tostring(square)..", "..tostring(north)..")");
 	local sprite = IsoSprite.new();
 	local colorInfo = ColorInfo.new(self.red, self.green, self.blue, 1);
 	sprite:LoadFramesNoDirPageSimple(self.shape);
@@ -95,7 +92,6 @@ end
 --
 --
 function Tag:new(player, sprayCanItem, shape, red, green, blue)
-	print("Tag:new("..tostring(player)..", "..tostring(sprayCanItem)..", "..tostring(shape)..", "..tostring(red)..", "..tostring(green)..", "..tostring(blue)..")");
 	local o = {};
 	setmetatable(o, self);
 	self.__index = self;

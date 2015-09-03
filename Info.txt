@@ -1,0 +1,21 @@
+Spraypaint Mod for Project Zomboid
+
+Concept Idea by Thuztor
+
+Original Code by:
+- Peanuts, Thuztor, blindCoder
+- Contributors: Ryun, gon
+- with initial help from RobertJohnson
+
+Original Textures by Thuztor
+
+Original PZ Forum link:
+http://theindiestone.com/forums/index.php/topic/81-spray-paint-mod
+
+What does this mod?
+
+You can find spraycans in some containers:
+- 9 colours (black, white, red, blue, green, yellow, orange, violet, cyan)
+- 18 shapes to spray (arrows, simple icons, special icons)
+- Single and Multiplayer support!
+- additional language support: german, polish
