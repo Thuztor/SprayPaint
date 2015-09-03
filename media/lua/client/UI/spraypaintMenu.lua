@@ -31,7 +31,7 @@ spraypaintMenu.showWindow = function(player, useSprayCan)--{{{
 	for _,symbolType in ipairs(shapeConf.list[1].symbolTypes) do
 		for _,shape in ipairs(symbolType.shapes) do
 			local btn = ISButton:new(2 + (x * 50), 20 + (y * 50), 48, 48, "", nil, spraypaintMenu.onSpray);
-			btn:setImage(getTexture(shape.name));
+			btn:setImage(getTexture(shape.icon));
 			btn.render = spraypaintMenu.renderShapeButton;
 			btn.player = player;
 			btn.shape = shape;
