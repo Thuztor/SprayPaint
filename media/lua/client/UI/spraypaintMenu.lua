@@ -176,7 +176,7 @@ spraypaintMenu.onSpray = function(_, self) -- {{{
 		ISTimedActionQueue.add(ISEquipWeaponAction:new(player, sprayCanItem, 50, false));
 	end
 
-	local tag = Tag:new(self.player, sprayCanItem, self.shape.name, spraypaintMenu.ColorSpray.red, spraypaintMenu.ColorSpray.green, spraypaintMenu.ColorSpray.blue);
+	local tag = Tag:new(self.player, sprayCanItem, self.shape.name, spraypaintMenu.ColorSpray.red, spraypaintMenu.ColorSpray.green, spraypaintMenu.ColorSpray.blue, false);
 
 	getCell():setDrag(tag, player:getPlayerNum());
 end
@@ -194,7 +194,7 @@ spraypaintMenu.onChalk = function(_, self) -- {{{
 		ISTimedActionQueue.add(ISEquipWeaponAction:new(player, chalkItem, 50, false));
 	end
 
-	local tag = Tag:new(self.player, chalkItem, self.shape.chalk, spraypaintMenu.ColorChalk.red, spraypaintMenu.ColorChalk.green, spraypaintMenu.ColorChalk.blue);
+	local tag = Tag:new(self.player, chalkItem, self.shape.chalk, spraypaintMenu.ColorChalk.red, spraypaintMenu.ColorChalk.green, spraypaintMenu.ColorChalk.blue, true);
 
 	getCell():setDrag(tag, player:getPlayerNum());
 end

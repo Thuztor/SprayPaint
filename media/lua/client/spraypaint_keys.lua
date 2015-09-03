@@ -82,7 +82,7 @@ Events.OnKeyPressed.Add(function (key)
 				if player:getSecondaryHandItem() ~= sprayCanItem then
 					ISTimedActionQueue.add(ISEquipWeaponAction:new(player, sprayCanItem, 50, false));
 				end
-				local tag = Tag:new(player:getPlayerNum(), sprayCanItem, shape[what], sprayCanColour.red, sprayCanColour.green, sprayCanColour.blue);
+				local tag = Tag:new(player:getPlayerNum(), sprayCanItem, shape[what], sprayCanColour.red, sprayCanColour.green, sprayCanColour.blue, what == "chalk");
 				getCell():setDrag(tag, player:getPlayerNum());
 			end
 		end
