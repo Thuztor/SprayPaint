@@ -14,7 +14,7 @@ spraypaintMenu.hideWindow = function(self) -- {{{
 end
 -- }}}
 spraypaintMenu.addTab = function(name) -- {{{
-  spraypaintMenu.mainPanel = ISPanelJoypad:new(0, 48, spraypaintMenu.window:getWidth(), spraypaintMenu.window:getHeight() - (48 * 2) - spraypaintMenu.window.nested.tabHeight)
+  spraypaintMenu.mainPanel = ISPanelJoypad:new(0, 48, spraypaintMenu.window:getWidth(), spraypaintMenu.window:getHeight() - spraypaintMenu.window.nested.tabHeight)
   spraypaintMenu.mainPanel:initialise()
   spraypaintMenu.mainPanel:instantiate()
   spraypaintMenu.mainPanel:setAnchorRight(true)
