@@ -26,5 +26,4 @@ sprayCanConf.listChalk={
 	{ name = 'ChalkViolet', red = 0.659, green = 0.110, blue = 0.843, text = getText('UI_InViolet') },
 	{ name = 'ChalkYellow', red = 0.804, green = 0.843, blue = 0.102, text = getText('UI_InYellow') },
 	{ name = 'ChalkCyan',   red = 0.125, green = 0.8,   blue = 0.784, text = getText('UI_InCyan')   },
-	{ name = 'ChalkBlack',  red = 0.224, green = 0.224, blue = 0.224, text = getText('UI_InBlack')  },
 };
