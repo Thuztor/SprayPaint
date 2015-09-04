@@ -10,48 +10,18 @@ spraypaint = {};
 spraypaint.tagList = {};
 spraypaint.gameModData = nil;
 
----
---
---
-spraypaint.loadTextures = function()
-	t = getTexture('media/textures/Item_TZ_Spraycan.png');
-	t = getTexture('media/textures/Item_TZ_Spraycan_White.png');
-	t = getTexture('media/textures/Item_TZ_Spraycan_Black.png');
-	t = getTexture('media/textures/Item_TZ_Spraycan_Red.png');
-	t = getTexture('media/textures/Item_TZ_Spraycan_Blue.png');
-	t = getTexture('media/textures/Item_TZ_Spraycan_Green.png');
-	t = getTexture('media/textures/Item_TZ_Spraycan_Violet.png');
-	t = getTexture('media/textures/Item_TZ_Spraycan_Yellow.png');
-	t = getTexture('media/textures/Item_TZ_Spraycan_Orange.png');
-	t = getTexture('media/textures/Item_TZ_Spraycan_Cyan.png');
-
-	t = getTexture('media/textures/Item_tz_ArrowEAST_Floor.png');
-	t = getTexture('media/textures/Item_tz_ArrowNORTHEAST_Floor.png');
-	t = getTexture('media/textures/Item_tz_ArrowNORTHWEST_Floor.png');
-	t = getTexture('media/textures/Item_tz_ArrowNORTH_Floor.png');
-	t = getTexture('media/textures/Item_tz_ArrowSOUTHEAST_Floor.png');
-	t = getTexture('media/textures/Item_tz_ArrowSOUTHWEST_Floor.png');
-	t = getTexture('media/textures/Item_tz_ArrowSOUTH_Floor.png');
-	t = getTexture('media/textures/Item_tz_ArrowWEST_Floor.png');
-	t = getTexture('media/textures/Item_tz_CIRCLE_Floor.png');
-	t = getTexture('media/textures/Item_tz_CROSS_Floor.png');
-	t = getTexture('media/textures/Item_tz_HORDES_Floor.png');
-	t = getTexture('media/textures/Item_tz_LOOTED_Floor.png');
-	t = getTexture('media/textures/Item_tz_NOTSAFE_Floor.png');
-	t = getTexture('media/textures/Item_tz_SAFEHOUSE_Floor.png');
-	t = getTexture('media/textures/Item_tz_SAFE_Floor.png');
-	t = getTexture('media/textures/Item_TZ_Spraycan.png');
-	t = getTexture('media/textures/Item_TZ_Spraycan_Black.png');
-	t = getTexture('media/textures/Item_TZ_Spraycan_Blue.png');
-	t = getTexture('media/textures/Item_TZ_Spraycan_Cyan.png');
-	t = getTexture('media/textures/Item_TZ_Spraycan_Green.png');
-	t = getTexture('media/textures/Item_TZ_Spraycan_Orange.png');
-	t = getTexture('media/textures/Item_TZ_Spraycan_Red.png');
-	t = getTexture('media/textures/Item_TZ_Spraycan_Violet.png');
-	t = getTexture('media/textures/Item_TZ_Spraycan_White.png');
-	t = getTexture('media/textures/Item_TZ_Spraycan_Yellow.png');
-	t = getTexture('media/textures/Item_tz_SQUARE_Floor.png');
-	t = getTexture('media/textures/Item_tz_TRIANGLE_Floor.png');
+spraypaint.startRain = function()
+	local gt = getGameTime();
+	local gtmd = gt:getModData();
+	if not gtmd.spraypaint then gtmd.spraypaint = {}; end
+	gtmd.spraypaint.lastRain = gt:getWorldAgeHours();
+end
+spraypaint.lastRain = function()
+	local gt = getGameTime();
+	local gtmd = gt:getModData();
+	if not gtmd.spraypaint then gtmd.spraypaint = {}; end
+	if not gtmd.spraypaint.lastRain then return 0; end
+	return gtmd.spraypaint.lastRain;
 end
 
 -- Using the GridSquare load event instead of a global table (which will try to set colors on unloaded grid squares)
@@ -62,9 +32,18 @@ Events.LoadGridsquare.Add(function (gridSquare)
 			local md = obj:getModData()
 			if md ~= nil and md['isTag'] == 'true' then
 				obj:getSprite():setTintMod(ColorInfo.new(md['red'], md['green'], md['blue'], 1.0))
+				if md.isChalk then
+					if md.lastRainCheck then
+						if md.lastRainCheck < spraypaint.lastRain() then
+							gridSquare:getObjects():remove(obj);
+						end
+					else
+						md.lastRainCheck = getGameTime():getWorldAgeHours();
+					end
+				end
 			end
 		end
 	end
 end)
 
-Events.OnPreMapLoad.Add(spraypaint.loadTextures);
+Events.OnRainStart.Add(spraypaint.startRain);

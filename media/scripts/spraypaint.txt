@@ -108,4 +108,84 @@ module spraypaint
 		Weight            =  0.5,
 	}
 	
+	item ChalkWhite
+	{
+		Type              =  Drainable,
+		DisplayName       =  Chalk (White),
+		Icon              =  TZ_Chalk_White.png,
+		UseDelta          =  0.025,
+		UseWhileEquipped  =  false,
+		Weight            =  0.5,
+	}
+  
+	item ChalkRed
+	{
+		Type              =  Drainable,
+		DisplayName       =  Chalk (Red),
+		Icon              =  TZ_Chalk_Red.png,
+		UseDelta          =  0.025,
+		UseWhileEquipped  =  false,
+		Weight            =  0.5,
+	}
+	
+	item ChalkBlue
+	{
+		Type              =  Drainable,
+		DisplayName       =  Chalk (Blue),
+		Icon              =  TZ_Chalk_Blue.png,
+		UseDelta          =  0.025,
+		UseWhileEquipped  =  false,
+		Weight            =  0.5,
+	}
+	
+	item ChalkGreen
+	{
+		Type              =  Drainable,
+		DisplayName       =  Chalk (Green),
+		Icon              =  TZ_Chalk_Green.png,
+		UseDelta          =  0.025,
+		UseWhileEquipped  =  false,
+		Weight            =  0.5,
+	}
+	
+	item ChalkOrange
+	{
+		Type              =  Drainable,
+		DisplayName       =  Chalk (Orange),
+		Icon              =  TZ_Chalk_Orange.png,
+		UseDelta          =  0.025,
+		UseWhileEquipped  =  false,
+		Weight            =  0.5,
+	}
+	
+	item ChalkYellow
+	{
+		Type              =  Drainable,
+		DisplayName       =  Chalk (Yellow),
+		Icon              =  TZ_Chalk_Yellow.png,
+		UseDelta          =  0.025,
+		UseWhileEquipped  =  false,
+		Weight            =  0.5,
+	}
+	
+	item ChalkViolet
+	{
+		Type              =  Drainable,
+		DisplayName       =  Chalk (Violet),
+		Icon              =  TZ_Chalk_Violet.png,
+		UseDelta          =  0.025,
+		UseWhileEquipped  =  false,
+		Weight            =  0.5,
+	}
+	
+	item ChalkCyan
+	{
+		Type              =  Drainable,
+		DisplayName       =  Chalk (Cyan),
+		Icon              =  TZ_Chalk_Cyan.png,
+		UseDelta          =  0.025,
+		UseWhileEquipped  =  false,
+		Weight            =  0.5,
+	}
+
 }

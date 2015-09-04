@@ -24,6 +24,8 @@ function Tag:create(x, y, z, north, sprite)
 
 		local isoObjectModData = tagTile:getModData();
 		isoObjectModData['isTag'] = 'true';
+		isoObjectModData['lastRainCheck'] = getGameTime():getWorldAgeHours();
+		isoObjectModData['isChalk'] = self.isChalk;
 		isoObjectModData['red'] = self.red;
 		isoObjectModData['green'] = self.green;
 		isoObjectModData['blue'] = self.blue;
@@ -91,7 +93,7 @@ end
 ---
 --
 --
-function Tag:new(player, sprayCanItem, shape, red, green, blue)
+function Tag:new(player, sprayCanItem, shape, red, green, blue, isChalk)
 	local o = {};
 	setmetatable(o, self);
 	self.__index = self;
@@ -104,6 +106,7 @@ function Tag:new(player, sprayCanItem, shape, red, green, blue)
 	o.red = red;
 	o.green = green;
 	o.blue = blue;
+	o.isChalk = isChalk;
 	o.maxTime = 10;
 	o.noNeedHammer = true;
 
