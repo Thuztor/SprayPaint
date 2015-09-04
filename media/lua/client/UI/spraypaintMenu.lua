@@ -200,44 +200,6 @@ spraypaintMenu.onChalk = function(_, self) -- {{{
 end
 --}}}
 
--- TODO -- REMOVE -- 
-spraypaintMenu.doSpraypaintMenu = function(player, context, worldobjects)--{{{
-	local playerInventory = getSpecificPlayer(player):getInventory();
-	local playerHasSprayCan = false;
-	local sprayCan = nil;
-
-	-- Does the player have a spray can ?
-	for _,sprayCan in ipairs(sprayCanConf.list) do
-		sprayCan = playerInventory:FindAndReturn("spraypaint."..sprayCan.name)
-		if sprayCan then
-			playerHasSprayCan = true;
-			break;
-		end
-	end
-
-	-- Contextual menu creation if player has a spray can
-	if playerHasSprayCan then
-		context:addOption(getText("UI_SprayOnFloor"), player, spraypaintMenu.showWindow, sprayCan);
-	end
-end
---}}}
-Events.OnFillWorldObjectContextMenu.Add(spraypaintMenu.doSpraypaintMenu);
-
-spraypaintMenu.doInventoryMenu = function(player, context, items) -- {{{
-	local item = items[1];
-	if not instanceof(item, "InventoryItem") then
-		item = item.items[1];
-	end
-	if item == nil then return end;
-
-	if luautils.stringStarts(item:getType(), "Spraycan") then
-		context:addOption(getText("UI_SprayOnFloor"), player, spraypaintMenu.showWindow, item);
-	end
-end
--- }}}
-Events.OnFillInventoryObjectContextMenu.Add(spraypaintMenu.doInventoryMenu);
--- EVOMER -- ODOT --
-
 spraypaintMenu.ISITAPerform = ISInventoryTransferAction.perform;
 ISInventoryTransferAction.perform = function(self)--{{{
 	spraypaintMenu.ISITAPerform(self);
