@@ -1,0 +1,21 @@
+Items_DE = {
+	DisplayNameSpraycan (White) = "Spruehflasche (Weiss)",
+	DisplayNameSpraycan (Red) = "Spruehflasche (Rot)",
+	DisplayNameSpraycan (Blue) = "Spruehflasche (Blau)",
+	DisplayNameSpraycan (Green) = "Spruehflasche (Gruen)",
+	DisplayNameSpraycan (Orange) = "Spruehflasche (Orange)",
+	DisplayNameSpraycan (Yellow) = "Spruehflasche (Gelb)",
+	DisplayNameSpraycan (Violet) = "Spruehflasche (Violett)",
+	DisplayNameSpraycan (Black) = "Spruehflasche (Schwarz)",
+	DisplayNameSpraycan (Cyan) = "Spruehflasche (Cyan)",
+	DisplayNameChalk (White) = "Kreide (Weiss)",
+	DisplayNameChalk (Red) = "Kreide (Rot)",
+	DisplayNameChalk (Blue) = "Kreide (Blau)",
+	DisplayNameChalk (Green) = "Kreide (Gruen)",
+	DisplayNameChalk (Orange) = "Kreide (Orange)",
+	DisplayNameChalk (Yellow) = "Kreide (Gelb)",
+	DisplayNameChalk (Violet) = "Kreide (Violett)",
+	DisplayNameChalk (Black) = "Kreide (Schwarz)",
+	DisplayNameChalk (Cyan) = "Kreide (Cyan)",
+	
+}
