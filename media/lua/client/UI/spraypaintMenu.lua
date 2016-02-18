@@ -241,8 +241,8 @@ spraypaintMenu.showWindowToolbar = function()--{{{ bcToolbar integration
 end
 spraypaintMenu.addToolbarButton = function()
 	if spraypaintMenu.toolbarButton then return end;
-	local craftBtn = ISEquippedItem.instance.craftingBtn;
-	spraypaintMenu.toolbarButton = ISButton:new(0, craftBtn:getY() + craftBtn:getHeight() + 5, 64, 64, "", nil, spraypaintMenu.showWindowToolbar);
+	local movableBtn = ISEquippedItem.instance.movableBtn;
+	spraypaintMenu.toolbarButton = ISButton:new(0, movableBtn:getY() + movableBtn:getHeight() + 5, 64, 64, "", nil, spraypaintMenu.showWindowToolbar);
 	spraypaintMenu.toolbarButton:setImage(spraypaintMenu.textureOff);
 	spraypaintMenu.toolbarButton:setDisplayBackground(false);
 	spraypaintMenu.toolbarButton.borderColor = {r=1, g=1, b=1, a=0.1};
