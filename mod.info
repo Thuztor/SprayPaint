@@ -4,6 +4,6 @@ description=Mark your path of looting with spray cans.
 id=spraypaint
 require=bcUtils
 
-modversion=1
-pzversion=32.24
+modversion=2
+pzversion=34.8
 versionurl=https://raw.githubusercontent.com/Thuztor/SprayPaint/master/mod.info
